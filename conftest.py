@@ -1,11 +1,11 @@
 # Fixtures - функции, которые позволяют делать что то до или после теста
 import pytest
 import time
-from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
 
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
+
 
 
 # 1
