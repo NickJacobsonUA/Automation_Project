@@ -3,7 +3,7 @@ import random
 import time
 # generated_person - библиотека с данными людей
 from generator.generator import generated_person
-from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators
+from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators
 from pages.base_page import BasePage
 
 
@@ -15,7 +15,7 @@ class TextBoxPage(BasePage):
     #next - функция для взятия данных для одной итерации для имени, фамилии и адреса
 
 
-    def fill_all_fields(self, ):
+    def fill_all_fields(self):
         self.remove_footer()
         person_info = next(generated_person())
         full_name = person_info.full_name
@@ -79,5 +79,25 @@ class CheckBoxPage(BasePage):
 
             data.append(item.text)
         return str(data).replace(' ','').lower()
+
+class RadioButtonPage(BasePage): #наследуемся от BasePage.т.е - методы поиска элементов на странице и иницализация
+    # Кликаем на элемент, появляется инфа что выбран элемент. Тайтлы кнопок одинаковые, формат одинаковый
+    locators = RadioButtonPageLocators()
+    def click_on_the_radio_button(self,choice): #аргумент choice это словарик с ключами
+
+        choices = {'yes': self.locators.YES_RADIOBUTTON,
+                   'impressive': self.locators.IMPRESSIVE_RADIOBUTTON,
+                   'no': self.locators.NO_RADIOBUTTON}
+
+        #Выбор элемента для клика
+        self.element_is_visible(choices[choice]).click()
+    def get_output_result(self):
+        return self.element_is_present(self.locators.OUTPUT_RESULT).text
+
+
+
+
+
+
 
 
