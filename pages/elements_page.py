@@ -2,6 +2,8 @@
 import random
 import time
 # generated_person - библиотека с данными людей
+from selenium.webdriver.common.by import By
+
 from generator.generator import generated_person
 from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators, \
     WebTablePageLocators
@@ -96,9 +98,11 @@ class RadioButtonPage(BasePage): #наследуемся от BasePage.т.е - �
         return self.element_is_present(self.locators.OUTPUT_RESULT).text
 
 class WebTablePage(BasePage):
+
     locators= WebTablePageLocators()
 
     def add_new_person(self):
+
         count = 1
         while count !=0:
             person_info = next(generated_person())
@@ -121,6 +125,7 @@ class WebTablePage(BasePage):
 
 
     def check_new_added_person(self):
+
         people_list = self.elements_are_present(self.locators.FULL_PEOPLE_LIST)
         #берём данные с этого списка пользоватетелей
         data = []
@@ -131,13 +136,54 @@ class WebTablePage(BasePage):
     # Создание функции для поиска человека в таблице юзеров
 
     def search_some_person(self, key_word):
+
         self.element_is_visible(self.locators.SEARCH_INPUT).send_keys(key_word)
 
     def check_search_person(self):
-        self.remove_footer()
+
         delete_button = self.element_is_present(self.locators.DELETE_BUTTON)
         row = delete_button.find_element("xpath", self.locators.ROW_PARENT)
         return row.text.splitlines()
+
+
+    # Создаем метод клика по карандашу edit на изменения возраста
+    def update_person_info(self):
+
+        person_info = next(generated_person())
+        age = person_info.age #Берём сгенерированый возраст
+        self.element_is_visible(self.locators.UPDATE_BUTTON).click() # нажимаем на карандаш
+        self.element_is_visible(self.locators.AGE_INPUT).clear()
+        self.element_is_visible(self.locators.AGE_INPUT).send_keys(age) # меняем возраст
+        self.element_is_visible(self.locators.SUBMIT).click() #нажимаем сабмит
+        return str(age)
+
+    def delete_person(self):
+
+
+        self.element_is_visible(self.locators.DELETE_BUTTON).click()
+
+        #вытягиеваем текст который говорит что страница не найдена
+    def check_deleted(self):
+        return self.element_is_present(self.locators.NO_ROWS_FOUND).text
+
+    # Есть значения колисчества строк в тблице которые мы заносим в цикл, где по очереди проходится, и записывать кол-во элементов в массив
+    def select_up_to_some_rows(self):
+        count = [5,10,20,25,50,100]
+        data = []
+        for x in count:
+            count_row_button = self.element_is_visible(self.locators.COUNT_ROW_LIST)
+            self.go_to_element(count_row_button)
+            count_row_button.click()
+            self.element_is_visible((By.CSS_SELECTOR, f'option[value="{x}"]')).click()
+            data.append(self.check_count_rows())
+        return data
+
+    def check_count_rows(self):
+        list_rows = self.elements_are_present(self.locators.FULL_PEOPLE_LIST)
+        return len(list_rows)
+
+
+
 
 
 

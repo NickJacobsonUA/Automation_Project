@@ -12,14 +12,6 @@ from webdriver_manager.chrome import ChromeDriverManager
 @pytest.fixture(scope="function",)
 # function - для открытия браузера в set up и закрывался в teardown каждого теста. Независимость теста.
 def driver():
-    # открытие и закрытие функции. Для того что бы сделать функцию фикстурой прописывается декоратор сверху(смотреть выше)
-    # driver = webdriver.Chrome #webdriver берётся из selenium. также нужно скачать драйвер менеджер - использовать спец. бтблиотеку webdriver manager
-    # подключаем вэб драйвер мэнеджер через настройки и подключаем его через
-
-    #выбор юзер по умолчанию при открытии браузера
-    #options = webdriver.ChromeOptions()
-    #options.add_argument("--profile-directory=Profile1")
-    #options.add_argument("--user-data-dir=C:\\Users\\starl\\AppData\\Local\\Google\\Chrome\\User Data\\")
 
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))# импортируем бибилиотеку ChromeDriverManager() для открытия либо же запуска браузера
     driver.maximize_window()  # открытие браузера на весь экран

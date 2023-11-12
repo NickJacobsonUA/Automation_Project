@@ -2,6 +2,7 @@ import random
 import time
 
 from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage
+
 from conftest import driver
 
 class TestElements:
@@ -62,9 +63,35 @@ class TestElements:
             key_word = web_table_page.add_new_person()[random.randint(0,5)]
             web_table_page.search_some_person(key_word)
             table_result = web_table_page.check_search_person()
-
             assert key_word in table_result,"the person was not found in the table"
 
+        # выбираем человека в списке, меняем его возраст, проверяем что возраст изменился
+        def test_web_table_update_person_info(self,driver):
+            web_table_page = WebTablePage(driver, 'https://demoqa.com/webtables')
+            web_table_page.open()
+            #использую функцию по поиску человека, выбираем человека в списке, меняем его возраст, и проверять что возраст был изменён
+            lastname = web_table_page.add_new_person()[1]
+            web_table_page.search_some_person(lastname)
+            age = web_table_page.update_person_info()
+            #Проверяем всех людей
+            row = web_table_page.check_search_person()
+            assert age in row, "the person card has not been changed"
 
+        # ищем человека, удаляем его, и проверяем что появляется надпись что строки в вэб таблице не найдены
+        def test_web_table_delete_person(self,driver):
+            web_table_page = WebTablePage(driver, 'https://demoqa.com/webtables')
+            web_table_page.open()
+            email = web_table_page.add_new_person()[3] #создаем человека, третьего в очереди
+            web_table_page.search_some_person(email)
+            web_table_page.delete_person()
+            text = web_table_page.check_deleted()
+            assert text == 'No rows found'
+
+        # Проверка изменения колличество строк в вэб таблице
+        def test_web_table_change_count_row(self,driver):
+            web_table_page = WebTablePage(driver, 'https://demoqa.com/webtables')
+            web_table_page.open()
+            count = web_table_page.select_up_to_some_rows()
+            assert count == [5,10,20,25,50,100], 'The number of rows in the table has not beeen changed or has changed incorrectly'
 
 
