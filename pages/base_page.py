@@ -2,7 +2,8 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait as wait
 from selenium.webdriver.support import expected_conditions as EC
 
-class BasePage: # base page использует driver, и будет представлять собой класс от которого будут следоваться все остальные страницы
+
+class BasePage:  # base page использует driver, и будет представлять собой класс от которого будут следоваться все остальные страницы
     def __init__(self, driver, url):
         self.driver = driver
         self.url = url
@@ -14,8 +15,7 @@ class BasePage: # base page использует driver, и будет пред�
         self.driver.execute_script("document.getElementsByTagName('footer')[0].remove();")
         self.driver.execute_script("document.getElementById('fixedban').style.display='none'")
 
-    #def remove_footer(self):
-
+    # def remove_footer(self):
 
     # Создание методов для поиска єлементов на странице
     def element_is_visible(self, locator, timeout=5):
@@ -25,12 +25,14 @@ class BasePage: # base page использует driver, и будет пред�
         return wait(self.driver, timeout).until(EC.visibility_of_all_elements_located(locator))
 
     def element_is_present(self, locator, timeout=5):
-        return wait(self.driver, timeout).until(EC.presence_of_element_located(locator)) #поиск по ДОМ дереву
+        return wait(self.driver, timeout).until(EC.presence_of_element_located(locator))  # поиск по ДОМ дереву
 
     def elements_are_present(self, locator, timeout=5):
         return wait(self.driver, timeout).until(EC.presence_of_all_elements_located(locator))  # поиск по ДОМ дереву
+
     def element_is_not_visible(self, locator, timeout=5):
         return wait(self.driver, timeout).until(EC.invisibility_of_element_located(locator))
+
     def element_is_clickable(self, locator, timeout=5):
         return wait(self.driver, timeout).until(EC.element_to_be_clickable(locator))
 
@@ -41,12 +43,10 @@ class BasePage: # base page использует driver, и будет пред�
         action = ActionChains(self.driver)
         action.double_click(element)
         action.perform()
+
     def action_right_click(self, element):
         action = ActionChains(self.driver)
         action.context_click(element)
         action.perform()
-
-
-
 
 
