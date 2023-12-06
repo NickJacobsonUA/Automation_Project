@@ -258,7 +258,6 @@ class DynamicPropertiesPage(BasePage):
     # проверяем что цвета кнопки меняются путём поиска значения css property
     # затем возвращать цвета до и после, и сравнивать через assert
     def check_enable_button(self):
-
         try:
             self.element_is_clickable(self.locators.ENABLE_BUTTON)
         except TimeoutError:
