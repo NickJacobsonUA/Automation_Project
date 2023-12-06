@@ -12,7 +12,10 @@ class BasePage:  # base page использует driver, и будет пред
 
     def open(self):
         self.driver.get(self.url)
-        self.driver.execute_script("document.getElementsByTagName('footer')[0].remove();")
+        #footer = self.driver.execute_script("document.getElementsByTagName('footer')")
+        #if footer:
+            #footer[0].remove()
+        #self.driver.execute_script("document.getElementsByTagName('footer')[0].remove();")
         self.driver.execute_script("document.getElementById('fixedban').style.display='none'")
 
     # def remove_footer(self):

@@ -21,3 +21,10 @@ def generated_person():
         current_address = fake.street_address(),
         permanent_address = fake.street_address(),
     )
+
+def generated_file():
+    path = rf'D:\Downloads\filetest{random.randint(0,999)}.txt'
+    file = open(path, 'w+')
+    file.write(f'Hello World {random.randint(0,999)}')
+    file.close()
+    return file.name, path # возращаем имя файла через метод file.name
