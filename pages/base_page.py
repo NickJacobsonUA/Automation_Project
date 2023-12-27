@@ -16,9 +16,8 @@ class BasePage:  # base page использует driver, и будет пред
         #if footer:
             #footer[0].remove()
         #self.driver.execute_script("document.getElementsByTagName('footer')[0].remove();")
-        self.driver.execute_script("document.getElementById('fixedban').style.display='none'")
+        #self.driver.execute_script("document.getElementById('fixedban').remove();")
 
-    # def remove_footer(self):
 
     # Создание методов для поиска єлементов на странице
     def element_is_visible(self, locator, timeout=5):
@@ -52,4 +51,7 @@ class BasePage:  # base page использует driver, и будет пред
         action.context_click(element)
         action.perform()
 
+    def remove_footer(self):
+        self.driver.execute_script("document.getElementsByTagName('footer')[0].remove();")
+        self.driver.execute_script("document.getElementById('fixedban').remove();")
 

@@ -20,6 +20,8 @@ def generated_person():
         email = fake.email(),
         current_address = fake.street_address(),
         permanent_address = fake.street_address(),
+        mobile=fake.msisdn(),
+
     )
 
 def generated_file():
