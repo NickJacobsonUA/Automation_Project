@@ -264,6 +264,8 @@ class DynamicPropertiesPage(BasePage):
             return False
         return True
 
+    # проверяем что цвета кнопки меняются путём поиска значения css property
+    # затем возвращать цвета до и после, и сравнивать через assert
     def check_change_color(self):
         color_button = self.element_is_present(self.locators.COLOR_CHANGE_BUTTON)
         color_button_before = color_button.value_of_css_property('color') # смотрим на цвет через спец. метод value_of_css_property
