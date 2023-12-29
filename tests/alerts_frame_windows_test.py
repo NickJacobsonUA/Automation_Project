@@ -1,6 +1,6 @@
 import time
 
-from pages.alerts_frame_windows_page import BrowserWindowsPage
+from pages.alerts_frame_windows_page import BrowserWindowsPage, AlertsPage
 from conftest import driver
 
 
@@ -19,4 +19,32 @@ class Test_Alerts_Form_Windows:
             browser_new_window_page.open()
             text_result = browser_new_window_page.check_opened_new_tab()
             assert text_result == 'This is a sample page', "A new window has not been opened or incorrect window has been opened"
+
+    class Test_Alerts_Page:
+            def test_see_alert(self,driver):
+                alert_page = AlertsPage(driver,'https://demoqa.com/alerts')
+                alert_page.open()
+                alert_text = alert_page.check_see_alert()
+                assert alert_text == 'You clicked a button', 'The alert did not appear or the button was not clicked'
+
+            def test_alert_appear_5_sec(self, driver):
+                alert_page = AlertsPage(driver, 'https://demoqa.com/alerts')
+                alert_page.open()
+                alert_text = alert_page.check_alert_appear_5_sec()
+                assert alert_text == 'This alert appeared after 5 seconds', 'The alert did not appear or the button was not clicked'
+
+            def test_confirm_alert(self, driver):
+                alert_page = AlertsPage(driver, 'https://demoqa.com/alerts')
+                alert_page.open()
+                alert_text = alert_page.check_confirm_alert()
+                print(alert_text)
+                assert alert_text == 'You selected Ok', 'The alert did not appear or the button was not clicked'
+
+            def test_prompt_alert(self, driver):
+                alert_page = AlertsPage(driver, 'https://demoqa.com/alerts')
+                alert_page.open()
+                text, alert_text = alert_page.check_prompt_alert()
+                print(alert_text)
+                print(text)
+                assert alert_text == f'You entered {text}', 'The alert did not appear or the button was not clicked'
 
