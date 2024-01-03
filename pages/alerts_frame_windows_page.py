@@ -1,7 +1,8 @@
 import time
 import random
 
-from locators.alerts_frame_windows_page_locators import BrowserWindowsPageLocators, AlertsPageLocators
+from locators.alerts_frame_windows_page_locators import BrowserWindowsPageLocators, AlertsPageLocators, \
+    FramesPageLocators
 from pages.base_page import BasePage
 
 
@@ -58,4 +59,33 @@ class AlertsPage(BasePage):
         alert_window.accept()
         text_result = self.element_is_present(self.locators.PROMPT_BOX_ALERT_RESULT).text
         return text, text_result
+
+class FramesPage(BasePage):
+    locators = FramesPageLocators
+    #Checking that the iFrame exists and they contain the title "This is a sample page";
+    #In order to check the difference between the 2 frames we are using the sizes of the frames;
+    def check_frame(self,frame_num):
+        if frame_num == 'frame1':
+            frame = self.element_is_present(self.locators.FIRST_FRAME)
+            width = frame.get_attribute('width')
+            height = frame.get_attribute('height')
+            # taking text from the frames by using self.driver
+            self.driver.switch_to.frame(frame)
+            text = self.element_is_present(self.locators.TITLE_FRAME).text
+            self.driver.switch_to.default_content() #cleaning the content to be able to check the second frame
+            return [text,width,height]
+
+        if frame_num == 'frame2':
+            frame = self.element_is_present(self.locators.SECOND_FRAME)
+            width = frame.get_attribute('width')
+            height = frame.get_attribute('height')
+            # taking text from the frames by using self.driver
+            self.driver.switch_to.frame(frame)
+            text = self.element_is_present(self.locators.TITLE_FRAME).text
+            self.driver.switch_to.default_content()
+            return [text,width,height]
+
+
+
+
 
